@@ -1,0 +1,9 @@
+name: EnhancedTab
+version: '${version}'
+main: snw.enhancedtab.EnhancedTabPlugin
+author: "SNWCreations"
+description: "Enhanced command TAB completion library for Bukkit plugin developers."
+api-version: '1.13'
+depend:
+  - ProtocolLib
+website: "https://github.com/SNWCreations/EnhancedTab"
