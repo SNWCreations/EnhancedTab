@@ -53,9 +53,6 @@ final class TransactionIdCapture extends PacketAdapter {
         EnhancedTabPlugin instance = EnhancedTabPlugin.getInstance();
         instance.cancelCompletionFor(player); // cancel unfinished completion
         instance.transactionId.put(uuid, transaction);
-        if (command.startsWith("/")) {
-            // ensure we can rebuild correct command line, let the padding function work correctly
-            instance.hasSlashInCompletingCommandPlayers.add(uuid);
-        }
+        instance.completingCommands.put(uuid, command);
     }
 }

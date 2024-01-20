@@ -37,7 +37,7 @@ public final class EnhancedTabPlugin extends JavaPlugin implements EnhancedTabAP
     private static EnhancedTabPlugin instance;
     final Map<UUID, Future<?>> completionFuture = new HashMap<>();
     final Map<UUID, Integer> transactionId = new HashMap<>();
-    final Set<UUID> hasSlashInCompletingCommandPlayers = new HashSet<>();
+    final Map<UUID, String> completingCommands = new HashMap<>();
     ProtocolManager protocolManager;
 
     /**
@@ -77,7 +77,7 @@ public final class EnhancedTabPlugin extends JavaPlugin implements EnhancedTabAP
         }
         completionFuture.clear(); // remove all future object from map
         transactionId.clear(); // remove all tracked transaction id
-        hasSlashInCompletingCommandPlayers.clear(); // remove flags
+        completingCommands.clear(); // remove commands caught from packets
     }
 
     // API Implementation start
@@ -135,7 +135,7 @@ public final class EnhancedTabPlugin extends JavaPlugin implements EnhancedTabAP
     void freePlayerData(Player player) {
         UUID uuid = player.getUniqueId();
         transactionId.remove(uuid);
-        hasSlashInCompletingCommandPlayers.remove(uuid);
+        completingCommands.remove(uuid);
     }
 
 }

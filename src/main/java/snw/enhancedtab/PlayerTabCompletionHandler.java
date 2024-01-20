@@ -60,28 +60,26 @@ abstract class PlayerTabCompletionHandler<T> {
             return;
         }
 
-        Integer transactionId = EnhancedTabPlugin.getInstance().transactionId.remove(sender.getUniqueId()); // ensure the ID is released
+        EnhancedTabPlugin plugin = EnhancedTabPlugin.getInstance();
+        Integer transactionId = plugin.transactionId.remove(sender.getUniqueId()); // ensure the ID is released
         if (transactionId == null) { // plugin disabled or completion cancelled
             return;
         }
 
         // build necessary information
         int start;
-        String rebuiltCommandline;
+        String commandLine = plugin.completingCommands.remove(sender.getUniqueId());
         String lastOne;
         if (args.length != 0) {
-            rebuiltCommandline = padSlashIfNeeded(sender,
-                    label + " " + String.join(" ", args));
             lastOne = args[args.length - 1];
             int lastOneLength = lastOne.length();
-            start = rebuiltCommandline.length() - lastOneLength;
+            start = commandLine.length() - lastOneLength;
         } else {
-            rebuiltCommandline = padSlashIfNeeded(sender, label + " ");
-            start = rebuiltCommandline.length();
+            start = commandLine.length();
             lastOne = "";
         }
 
-        SuggestionsBuilder builder = new SuggestionsBuilder(rebuiltCommandline, start);
+        SuggestionsBuilder builder = new SuggestionsBuilder(commandLine, start);
         if (!useDefaults) {
             for (T t : list) {
                 completeSuggestions(builder, t);
@@ -105,18 +103,12 @@ abstract class PlayerTabCompletionHandler<T> {
         Suggestions suggestions = builder.build();
 
         // build the packet
-        ProtocolManager protocolManager = EnhancedTabPlugin.getInstance().protocolManager;
+        ProtocolManager protocolManager = plugin.protocolManager;
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.TAB_COMPLETE);
         packet.getIntegers().write(0, transactionId);
         packet.getModifier().write(1, suggestions);
 
         // send the packet
         protocolManager.sendServerPacket(sender, packet);
-    }
-
-    private static String padSlashIfNeeded(Player player, String toPad) {
-        return EnhancedTabPlugin.getInstance()
-                .hasSlashInCompletingCommandPlayers.remove(player.getUniqueId())
-                ? "/" + toPad : toPad;
     }
 }
