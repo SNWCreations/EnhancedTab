@@ -34,7 +34,7 @@ public interface EnhancedTabCompleter {
      * on the command which is bound by this implementation.
      *
      * @param sender  The requester
-     * @param command The Bukkit command objet
+     * @param command The Bukkit command object
      * @param label   The "alias" of the command
      * @param args    Currently provided arguments
      * @return The suggestion list, {@code null} to Bukkit defaults
