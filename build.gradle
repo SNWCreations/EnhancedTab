@@ -25,10 +25,16 @@ repositories {
     }
 }
 
+def adventureVersion = "4.17.0"
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT"
     compileOnly "com.comphenix.protocol:ProtocolLib:5.1.0"
     compileOnly "com.mojang:brigadier:1.0.18"
+
+    // Adventure
+    compileOnly "net.kyori:adventure-api:$adventureVersion"
+    compileOnly "net.kyori:adventure-text-serializer-legacy:$adventureVersion"
+    compileOnly "net.kyori:adventure-text-serializer-gson:$adventureVersion"
 }
 
 def targetJavaVersion = 8

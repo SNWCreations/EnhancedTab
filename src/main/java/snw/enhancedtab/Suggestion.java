@@ -16,33 +16,52 @@
 
 package snw.enhancedtab;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 /**
  * The command suggestion object. <br>
  * Example: <br>
- * <code>Suggestion.of("test", org.bukkit.ChatColor.GREEN + "test")</code>
+ * <code>Suggestion.of("test", org.bukkit.ChatColor.GREEN + "test")</code> in legacy way. <br> Or
+ * <code>Suggestion.of(Component.text("test", NamedTextColor.GREEN))</code> using Adventure.
  *
  * @author SNWCreations
  * @since 1.0.0
  */
 public final class Suggestion {
     private final String content;
-    private final String tooltip; // nullable
+    private final Component tooltipComponent; // nullable
 
+    @Deprecated
     public Suggestion(String content, String tooltip) {
+        this(content, tooltip == null ? null : Component.text(tooltip));
+    }
+
+    public Suggestion(String content, Component tooltipComponent) {
         this.content = content;
-        this.tooltip = tooltip;
+        this.tooltipComponent = tooltipComponent;
     }
 
     public String getContent() {
         return content;
     }
 
+    @Deprecated
     public String getTooltip() {
-        return tooltip;
+        return LegacyComponentSerializer.legacySection().serialize(tooltipComponent);
+    }
+
+    public Component getTooltipComponent() {
+        return tooltipComponent;
     }
 
     // Just for coders who dislike "new" statements
+    @Deprecated
     public static Suggestion of(String content, String tooltip) {
         return new Suggestion(content, tooltip);
+    }
+
+    public static Suggestion of(String content, Component tooltipComponent) {
+        return new Suggestion(content, tooltipComponent);
     }
 }

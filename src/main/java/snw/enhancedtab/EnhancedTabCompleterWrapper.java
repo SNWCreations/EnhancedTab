@@ -19,6 +19,8 @@ package snw.enhancedtab;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.mojang.brigadier.Message;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -58,7 +60,7 @@ class EnhancedTabCompleterWrapper extends PlayerTabCompletionHandler<Suggestion>
     @Override
     protected void completeSuggestions(SuggestionsBuilder builder, Suggestion from) {
         String content = from.getContent();
-        String tooltip = from.getTooltip();
+        Component tooltip = from.getTooltipComponent();
         if (tooltip != null) {
             builder.suggest(content, chatMessage2NMSChatComponent(tooltip));
         } else {
@@ -75,8 +77,9 @@ class EnhancedTabCompleterWrapper extends PlayerTabCompletionHandler<Suggestion>
                         " during tab completion for command " + rebuiltCommandLine, e);
     }
 
-    private static Message chatMessage2NMSChatComponent(String message) {
+    private static Message chatMessage2NMSChatComponent(Component message) {
+        String json = GsonComponentSerializer.gson().serialize(message);
         // IChatBaseComponent extends Message, so we can convert it here
-        return (Message) WrappedChatComponent.fromLegacyText(message).getHandle();
+        return (Message) WrappedChatComponent.fromJson(json).getHandle();
     }
 }
