@@ -71,9 +71,6 @@ class AsyncTabCompleter extends PlayerTabCompletionHandler<String> implements Ta
 
     @Override
     protected void handleCompletionException(Player requester, String rebuiltCommandLine, Throwable e) {
-        requester.getServer().getLogger().log(Level.SEVERE,
-                "Unhandled exception from completer " +
-                        delegate +
-                        " during tab completion for command " + rebuiltCommandLine, e);
+        DefaultTabCompletionExceptionHandler.handle(requester, rebuiltCommandLine, e, delegate);
     }
 }

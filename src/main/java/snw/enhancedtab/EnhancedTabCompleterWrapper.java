@@ -68,13 +68,9 @@ class EnhancedTabCompleterWrapper extends PlayerTabCompletionHandler<Suggestion>
         }
     }
 
-    // we can't simply reuse code from AsyncTabCompleter here :(
     @Override
     protected void handleCompletionException(Player requester, String rebuiltCommandLine, Throwable e) {
-        requester.getServer().getLogger().log(Level.SEVERE,
-                "Unhandled exception from completer " +
-                        delegate +
-                        " during tab completion for command " + rebuiltCommandLine, e);
+        DefaultTabCompletionExceptionHandler.handle(requester, rebuiltCommandLine, e, delegate);
     }
 
     private static Message chatMessage2NMSChatComponent(Component message) {
