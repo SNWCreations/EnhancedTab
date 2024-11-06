@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 /**
  * The {@link TabCompleter} which wraps a sync tab completer to let it run asynchronously.

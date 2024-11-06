@@ -28,7 +28,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * A wrapper which wraps {@link EnhancedTabCompleter} to a standard Bukkit {@link TabCompleter}.
